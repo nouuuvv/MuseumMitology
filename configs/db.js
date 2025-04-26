@@ -1,17 +1,13 @@
-const mysql = require("mysql2");
-const db = mysql.createConnection({
+const { Pool } = require("pg");
+require("dotenv").config();
+
+const pool = new Pool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  port: process.env.DB_PORT, // port 5432
+  ssl: process.env.DB_SSL === "true", // Untuk koneksi ke Supabase nanti
 });
 
-db.connect((err) => {
-  if (err) {
-    console.error("Error connecting to the database:", err);
-    return;
-  }
-  console.log("Connected to the database.");
-});
-
-module.exports = db;
+module.exports = pool;
